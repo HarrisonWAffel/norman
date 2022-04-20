@@ -442,8 +442,11 @@ func (b *Builder) convertArray(fieldType string, value interface{}, op Operation
 	}
 
 	sliceValue, ok := value.([]interface{})
-	if !ok {
-		return nil, nil
+	if !ok { // value is a single element or nil
+		if value == nil {
+			return nil, nil
+		}
+		return []interface{}{convert.ToString(value)}, nil
 	}
 
 	var result []interface{}
